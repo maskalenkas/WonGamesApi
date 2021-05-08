@@ -1,8 +1,18 @@
 'use strict';
 
+const { default: createStrapi } = require("strapi");
+
 /**
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
  * to customize this controller
  */
 
-module.exports = {};
+module.exports = {
+  populate: async (ctx) => {
+    console.log('starting to populate...')
+
+    await strapi.services.game.populate('dsa')
+
+    ctx.send({ ok: true})
+  }
+};

@@ -11,6 +11,7 @@
   },
   "devDependencies": {},
   "dependencies": {
+    "jsdom": "^16.5.3",
     "knex": "0.21.18",
     "pg": "8.5.1",
     "strapi": "3.6.1",
@@ -20,6 +21,7 @@
     "strapi-plugin-content-manager": "3.6.1",
     "strapi-plugin-content-type-builder": "3.6.1",
     "strapi-plugin-email": "3.6.1",
+    "strapi-plugin-entity-relationship-chart": "^3.1.0",
     "strapi-plugin-graphql": "3.6.1",
     "strapi-plugin-i18n": "3.6.1",
     "strapi-plugin-upload": "3.6.1",
