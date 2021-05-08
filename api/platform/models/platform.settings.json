@@ -1,8 +1,9 @@
 {
   "kind": "collectionType",
-  "collectionName": "publisers",
+  "collectionName": "platforms",
   "info": {
-    "name": "publiser"
+    "name": "platform",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -22,7 +23,7 @@
       "required": true
     },
     "games": {
-      "via": "publiser",
+      "via": "platforms",
       "collection": "game"
     }
   }
