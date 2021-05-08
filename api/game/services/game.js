@@ -44,6 +44,7 @@ async function createManyToManyData(products) {
     // Adicionando chaves aos objetos criados. Esta inteirando sob os dados da API
     const { developer, publisher, genres, supportedOperatingSystems } = product;
 
+    // Verificando se esses dados existem para não dar erro
     genres &&
       genres.forEach((item) => {
         console.log(item);
@@ -56,6 +57,13 @@ async function createManyToManyData(products) {
     developers[developer] = true;
     publishers[publisher] = true;
   });
+
+  /*
+  No final ficara algo como Categories = {
+    action = true
+    ... = true
+  }
+  */
 
   return Promise.all([
     ...Object.keys(developers).map((name) => create(name, "developer")),
