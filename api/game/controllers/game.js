@@ -1,18 +1,22 @@
-'use strict';
-
-const { default: createStrapi } = require("strapi");
+"use strict";
 
 /**
- * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
+ * Read the documentation (https://strapi.io/documentation/v3.x/concepts/controllers.html#core-controllers)
  * to customize this controller
  */
 
 module.exports = {
   populate: async (ctx) => {
-    console.log('starting to populate...')
+    console.log("🚀 🚀 🚀 Starting to populate... 🚀 🚀 🚀");
 
-    await strapi.services.game.populate('dsa')
+    const options = {
+      sort: "popularity",
+      page: "1",
+      ...ctx.query,
+    };
 
-    ctx.send({ ok: true})
-  }
+    await strapi.services.game.populate(options);
+
+    ctx.send("Finished populating!");
+  },
 };
