@@ -17,6 +17,7 @@ function timeout(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+// Vai entrar na pagina do game e pegar a descrição
 async function getGameInfo(slug) {
   const jsdom = require("jsdom");
   const { JSDOM } = jsdom;
@@ -32,7 +33,7 @@ async function getGameInfo(slug) {
   };
 }
 
-
+// Vai achar a coleção por algum meio, no caso nome, e retornar todos os dados
 async function getByName(name, entityName) {
   const item = await strapi.services[entityName].find({ name });
   return item.length ? item[0] : null;
@@ -41,6 +42,7 @@ async function getByName(name, entityName) {
 async function create(name, entityName) {
   const item = await getByName(name, entityName);
 
+  // Caso o caso não exista, faça
   if (!item) {
     return await strapi.services[entityName].create({
       name,
@@ -62,6 +64,7 @@ async function createManyToManyData(products) {
       categories.add(item);
     });
 
+    // [linux, windows ...]
     supportedOperatingSystems?.forEach((item) => {
       platforms.add(item);
     });
@@ -70,6 +73,7 @@ async function createManyToManyData(products) {
     publishers.add(publisher);
   });
 
+  // set == [linux, windows ...] <-- Esta criando.
   const createCall = (set, entityName) => Array.from(set).map((name) => create(name, entityName));
 
   return Promise.all([
@@ -110,6 +114,7 @@ async function setImage({ image, game, field = "cover" }) {
 
 async function createGames(products) {
   await Promise.all(
+    // Verificando se o jogo ja não existe
     products.map(async (product) => {
       const item = await getByName(product.title, "game");
 
@@ -126,6 +131,7 @@ async function createGames(products) {
           categories: await Promise.all(
             product.genres.map((name) => getByName(name, "category"))
           ),
+          // [linux, windows ... ] Agora eles vão ser achados adicionados
           platforms: await Promise.all(
             product.supportedOperatingSystems.map((name) =>
               getByName(name, "platform")
@@ -162,8 +168,10 @@ module.exports = {
         data: { products },
       } = await axios.get(gogApiUrl);
 
+      // Primeiro se cria as relações, e depois o coração de tudo
       await createManyToManyData(products);
       await createGames(products);
+
     } catch (e) {
       console.log("populate", Exception(e));
     }
